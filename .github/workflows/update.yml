@@ -1,0 +1,43 @@
+name: Update
+
+# Follows the releases of shipwick/shipwick. The tap pulls, rather than the
+# main repository pushing here, so that no repository holds a token for
+# another: this workflow writes to its own repository with its own token.
+#
+# A new release is picked up within a day; "Run workflow" does it right away.
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release tag (default, the latest release)
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+
+jobs:
+  formula:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Regenerate the formula
+        env:
+          VERSION: ${{ inputs.version }}
+        run: sh scripts/update-formula.sh "$VERSION"
+      - name: Commit if it changed
+        run: |
+          if git diff --quiet; then
+            echo "Already up to date."
+            exit 0
+          fi
+          version="$(sed -n 's/^  version "\(.*\)"$/\1/p' Formula/shipwick.rb)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "shipwick $version"
+          git push
