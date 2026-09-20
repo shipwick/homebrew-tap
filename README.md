@@ -27,8 +27,9 @@ The formula installs the binaries published with each
 taken from the release's `checksums.txt` — the same file the installer verifies
 against. Pre-releases are refused.
 
-The *Update* workflow runs the script once a day and commits the result when a
-new release exists; run it by hand to publish a release to Homebrew at once.
+The *Update* workflow runs the script once a day, commits the result when a
+new release exists and starts *Test* for it; run it by hand to publish a release
+to Homebrew at once.
 The *Test* workflow installs the formula on macOS and on Linux, and runs
 `brew test` and `brew audit --strict`.
 

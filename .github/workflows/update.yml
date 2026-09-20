@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # to start the Test workflow for the formula it commits
 
 concurrency:
   group: update
@@ -31,6 +32,7 @@ jobs:
           VERSION: ${{ inputs.version }}
         run: sh scripts/update-formula.sh "$VERSION"
       - name: Commit if it changed
+        id: commit
         run: |
           if git diff --quiet; then
             echo "Already up to date."
@@ -42,3 +44,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -am "shipwick $version"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Test the new formula
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run test.yml --ref main
