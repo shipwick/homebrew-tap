@@ -1,0 +1,9 @@
+# Keeps the pinned actions current, including the commit setup-homebrew is
+# pinned to.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: monthly }
+    groups:
+      actions: { patterns: ["*"] }
