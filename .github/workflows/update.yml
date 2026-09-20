@@ -36,7 +36,8 @@ jobs:
             echo "Already up to date."
             exit 0
           fi
-          version="$(sed -n 's/^  version "\(.*\)"$/\1/p' Formula/shipwick.rb)"
+          # The formula has no version line: Homebrew reads it from the URLs.
+          version="$(sed -n 's|.*/releases/download/v\([^/]*\)/.*|\1|p' Formula/shipwick.rb | head -n 1)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -am "shipwick $version"

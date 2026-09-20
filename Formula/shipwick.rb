@@ -2,7 +2,6 @@
 class Shipwick < Formula
   desc "Deploy Docker applications to your own server, without Kubernetes"
   homepage "https://shipwick.com"
-  version "0.1.0"
   license "Apache-2.0"
 
   on_macos do

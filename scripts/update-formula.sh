@@ -50,7 +50,6 @@ cat >Formula/shipwick.rb <<FORMULA
 class Shipwick < Formula
   desc "Deploy Docker applications to your own server, without Kubernetes"
   homepage "https://shipwick.com"
-  version "${tag#v}"
   license "Apache-2.0"
 
   on_macos do
