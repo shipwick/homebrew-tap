@@ -4,11 +4,10 @@ name: Update
 # main repository pushing here, so that no repository holds a token for
 # another: this workflow writes to its own repository with its own token.
 #
-# A new release is picked up within a day; "Run workflow" does it right away.
+# Run after a release: "Run workflow" on the Actions tab, or
+# gh workflow run update.yml -R shipwick/homebrew-tap.
 
 on:
-  schedule:
-    - cron: "17 5 * * *"
   workflow_dispatch:
     inputs:
       version:

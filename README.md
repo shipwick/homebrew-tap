@@ -27,14 +27,11 @@ The formula installs the binaries published with each
 taken from the release's `checksums.txt` — the same file the installer verifies
 against. Pre-releases are refused.
 
-The *Update* workflow runs the script once a day, commits the result when a
-new release exists and starts *Test* for it; run it by hand to publish a release
-to Homebrew at once.
+The *Update* workflow runs the script, commits the result when a new release
+exists and starts *Test* for it. It is run by hand after a release, from the
+Actions tab or with `gh workflow run update.yml -R shipwick/homebrew-tap`.
 The *Test* workflow installs the formula on macOS and on Linux, and runs
 `brew test` and `brew audit --strict`.
-
-GitHub pauses scheduled workflows in a repository without activity for 60
-days. If *Update* has stopped, re-enable it on the Actions tab.
 
 Problems with the CLI itself belong in
 [shipwick/shipwick](https://github.com/shipwick/shipwick/issues).
